@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -52,5 +53,6 @@ public class AccountDaoTest {
 
         assertNotNull(retrievedAccount, "Saved account must be retrieved from database");
         assertEquals(newAccount1, retrievedAccount, "Accounts must be the same");
+        assertNotEquals(newAccount2, retrievedAccount, "Accounts must be different");
     }
 }
