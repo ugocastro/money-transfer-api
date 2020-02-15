@@ -1,4 +1,4 @@
-package com.revolut.domain.dao;
+package com.revolut.domain.repository;
 
 import com.revolut.domain.entities.Account;
 import org.junit.jupiter.api.AfterAll;
@@ -18,7 +18,7 @@ public class AccountDaoTest {
 
     @BeforeAll
     static void beforeAll() {
-        accountDao = new AccountDaoImpl();
+        accountDao = new AccountDao();
     }
 
     @AfterAll
@@ -30,7 +30,7 @@ public class AccountDaoTest {
     public void testSaveAccountShouldCreateAccount() throws Exception {
         final Account newAccount = new Account();
         this.accountDao.save(newAccount);
-        final Account savedAccount = this.accountDao.getByNumber(newAccount.getNumber());
+        final Account savedAccount = this.accountDao.findById(newAccount.getNumber());
 
         assertNotNull(savedAccount, "Saved account must be retrieved from database");
     }
@@ -38,7 +38,7 @@ public class AccountDaoTest {
     @Test
     public void testGetAccountByNumberShouldRaiseErrorIfNotFound() {
         assertThrows(NoSuchElementException.class,
-            () -> this.accountDao.getByNumber(UUID.randomUUID().toString()),
+            () -> this.accountDao.findById(UUID.randomUUID().toString()),
             "Account must not be found for nonexistent number");
     }
 
@@ -48,7 +48,7 @@ public class AccountDaoTest {
         final Account newAccount2 = new Account();
         this.accountDao.save(newAccount1);
         this.accountDao.save(newAccount2);
-        final Account retrievedAccount = this.accountDao.getByNumber(newAccount1.getNumber());
+        final Account retrievedAccount = this.accountDao.findById(newAccount1.getNumber());
 
         assertNotNull(retrievedAccount, "Saved account must be retrieved from database");
         assertEquals(newAccount1, retrievedAccount, "Accounts must be the same");
