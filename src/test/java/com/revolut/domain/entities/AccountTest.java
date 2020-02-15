@@ -1,21 +1,25 @@
 package com.revolut.domain.entities;
 
-import com.revolut.utils.Constants;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
+import static com.revolut.utils.Constants.DECIMAL_PLACES;
+import static java.math.BigDecimal.ONE;
+import static java.math.BigDecimal.TEN;
+import static java.math.BigDecimal.ZERO;
+import static java.math.RoundingMode.HALF_UP;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AccountTest {
 
-    private static Account account;
+    private Account account;
 
     @BeforeEach
     void beforeEach() {
@@ -30,8 +34,13 @@ public class AccountTest {
     @Test
     public void testNewAccountShouldHaveANumberAndBalanceShouldBeZero() {
         assertNotNull(this.account.getNumber(), "Account must have a number");
-        assertEquals(BigDecimal.ZERO.setScale(Constants.DECIMAL_PLACES), this.account.getBalance(),
+        assertEquals(ZERO.setScale(DECIMAL_PLACES), this.account.getBalance(),
             "Account must be initialized with a balance of zero");
+    }
+
+    @Test
+    public void testNewAccountsShouldHaveDifferentNumbers() {
+        assertNotEquals(this.account.getNumber(), new Account().getNumber());
     }
 
     @Test
@@ -51,35 +60,36 @@ public class AccountTest {
     @Test
     public void testErrorShouldBeRaisedIfDepositIsEqualToZero() {
         assertThrows(IllegalArgumentException.class,
-            () -> this.account.deposit(BigDecimal.ZERO),
+            () -> this.account.deposit(ZERO),
             "Deposit must contain a value greater than zero");
     }
 
     @Test
     public void testDepositShouldIncreaseBalance() {
-        BigDecimal previousBalance = this.account.getBalance();
-        this.account.deposit(BigDecimal.TEN);
-        BigDecimal newBalance = this.account.getBalance();
+        final BigDecimal previousBalance = this.account.getBalance();
+        this.account.deposit(TEN);
+        final BigDecimal newBalance = this.account.getBalance();
+
         assertTrue(newBalance.compareTo(previousBalance) > 0,
             "Deposit must increase balance");
     }
 
     @Test
     public void testBalanceShouldAlwaysHaveTwoDecimalPlaces() {
-        assertEquals(Constants.DECIMAL_PLACES, this.account.getBalance().scale(),
+        assertEquals(DECIMAL_PLACES, this.account.getBalance().scale(),
             "Balance must have two decimal places");
         this.account.deposit(new BigDecimal(5.376d));
-        assertEquals(Constants.DECIMAL_PLACES, this.account.getBalance().scale(),
+        assertEquals(DECIMAL_PLACES, this.account.getBalance().scale(),
             "Balance must have two decimal places");
         this.account.withdraw(new BigDecimal(2.5d));
-        assertEquals(Constants.DECIMAL_PLACES, this.account.getBalance().scale(),
+        assertEquals(DECIMAL_PLACES, this.account.getBalance().scale(),
             "Balance must have two decimal places");
     }
 
     @Test
     public void testBalanceShouldBeRoundedUp() {
         this.account.deposit(new BigDecimal(5.375d));
-        assertEquals(new BigDecimal(5.38d).setScale(Constants.DECIMAL_PLACES, RoundingMode.HALF_UP),
+        assertEquals(new BigDecimal(5.38d).setScale(DECIMAL_PLACES, HALF_UP),
             this.account.getBalance(),
             "Balance must be rounded up");
     }
@@ -87,7 +97,7 @@ public class AccountTest {
     @Test
     public void testBalanceShouldBeRoundedDown() {
         this.account.deposit(new BigDecimal(5.374d));
-        assertEquals(new BigDecimal(5.37d).setScale(Constants.DECIMAL_PLACES, RoundingMode.HALF_UP),
+        assertEquals(new BigDecimal(5.37d).setScale(DECIMAL_PLACES, HALF_UP),
             this.account.getBalance(),
             "Balance must be rounded down");
     }
@@ -109,23 +119,24 @@ public class AccountTest {
     @Test
     public void testErrorShouldBeRaisedIfWithdrawIsEqualToZero() {
         assertThrows(IllegalArgumentException.class,
-            () -> this.account.withdraw(BigDecimal.ZERO),
+            () -> this.account.withdraw(ZERO),
             "Withdraw must contain a value greater than zero");
     }
 
     @Test
     public void testErrorShouldBeRaisedIfWithdrawIsGreaterThanBalance() {
         assertThrows(IllegalArgumentException.class,
-            () -> this.account.withdraw(BigDecimal.ONE),
+            () -> this.account.withdraw(ONE),
             "Account balance must contain value for withdraw");
     }
 
     @Test
     public void testWithdrawShouldDecreaseBalance() {
-        this.account.deposit(BigDecimal.TEN);
-        BigDecimal previousBalance = this.account.getBalance();
-        this.account.withdraw(BigDecimal.ONE);
-        BigDecimal newBalance = this.account.getBalance();
+        this.account.deposit(TEN);
+        final BigDecimal previousBalance = this.account.getBalance();
+        this.account.withdraw(ONE);
+        final BigDecimal newBalance = this.account.getBalance();
+
         assertTrue(newBalance.compareTo(previousBalance) < 0,
             "Withdraw must decrease balance");
     }
