@@ -26,5 +26,6 @@
         <property name="hibernate.dbcp.maxWaitMillis">-1</property>
 
         <mapping class="com.revolut.domain.entities.Account" />
+        <mapping class="com.revolut.domain.entities.Transaction" />
     </session-factory>
 </hibernate-configuration>

@@ -5,6 +5,7 @@ import org.hibernate.Session;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.NoSuchElementException;
 
 @Slf4j
 public abstract class HibernateDao<T extends Serializable> implements BaseDao<T> {
@@ -38,13 +39,14 @@ public abstract class HibernateDao<T extends Serializable> implements BaseDao<T>
 
     public T findById(final String id) throws Exception {
         Session session = null;
+        T result;
 
         try {
             session = ((org.hibernate.SessionFactory) this.sessionFactory.getSessionFactory())
                 .openSession();
             Class clazz = ((Class) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0]);
-            return (T) session.get(clazz, id);
+            result = (T) session.get(clazz, id);
         } catch (Exception e) {
             log.error("Error retrieving information from database", e.getMessage());
 
@@ -54,5 +56,11 @@ public abstract class HibernateDao<T extends Serializable> implements BaseDao<T>
 
             throw new Exception("Error retrieving information from database");
         }
+
+        if (result == null) {
+            throw new NoSuchElementException("No information found for given identifier");
+        }
+
+        return result;
     }
 }

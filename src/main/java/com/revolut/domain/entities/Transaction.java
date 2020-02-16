@@ -12,12 +12,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import static com.revolut.utils.Constants.DECIMAL_PLACES;
+import static java.math.RoundingMode.HALF_UP;
 import static java.util.UUID.randomUUID;
 
 @Entity
 @EqualsAndHashCode
-@ToString
 @Getter
+@ToString
 public class Transaction implements Serializable {
 
     private static final long serialVersionUID = -4857050094419687194L;
@@ -35,13 +37,15 @@ public class Transaction implements Serializable {
 
     private LocalDateTime date;
 
+    public Transaction() { }
+
     public Transaction(@NonNull final Account origin,
                        @NonNull final Account destination,
                        @NonNull final BigDecimal amount) {
         this.id = randomUUID().toString();
         this.origin = origin;
         this.destination = destination;
-        this.amount = amount;
+        this.amount = amount.setScale(DECIMAL_PLACES, HALF_UP);
         this.date = LocalDateTime.now();
     }
 

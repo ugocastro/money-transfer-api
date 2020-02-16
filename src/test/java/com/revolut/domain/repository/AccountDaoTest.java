@@ -6,8 +6,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
+import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -39,7 +39,7 @@ public class AccountDaoTest {
     @Test
     public void testGetAccountByNumberShouldRaiseErrorIfNotFound() {
         assertThrows(NoSuchElementException.class,
-            () -> this.accountDao.findById(UUID.randomUUID().toString()),
+            () -> this.accountDao.findById(randomUUID().toString()),
             "Account must not be found for nonexistent number");
     }
 

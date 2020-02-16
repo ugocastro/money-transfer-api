@@ -17,13 +17,13 @@ import static java.util.UUID.randomUUID;
 
 @Entity
 @EqualsAndHashCode
+@Getter
 @ToString
 public class Account implements Serializable {
 
     private static final long serialVersionUID = -5933713453986435201L;
 
     @Id
-    @Getter
     private String number;
 
     private BigDecimal balance;
@@ -53,10 +53,6 @@ public class Account implements Serializable {
 
         final BigDecimal newBalance = this.balance.subtract(amount);
         setBalance(newBalance);
-    }
-
-    public BigDecimal getBalance() {
-        return this.balance.setScale(DECIMAL_PLACES, HALF_UP);
     }
 
     private void setBalance(@NonNull final BigDecimal balance) {
