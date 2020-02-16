@@ -1,7 +1,6 @@
 package com.revolut.domain.repository;
 
 import com.revolut.domain.entities.Account;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -20,11 +19,6 @@ public class AccountDaoTest {
     @BeforeAll
     static void beforeAll() {
         accountDao = new AccountDao();
-    }
-
-    @AfterAll
-    static void afterAll() {
-        accountDao = null;
     }
 
     @Test

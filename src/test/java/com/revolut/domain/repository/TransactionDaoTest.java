@@ -2,7 +2,6 @@ package com.revolut.domain.repository;
 
 import com.revolut.domain.entities.Account;
 import com.revolut.domain.entities.Transaction;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -23,11 +22,6 @@ public class TransactionDaoTest {
     @BeforeAll
     static void beforeAll() {
         transactionDao = new TransactionDao();
-    }
-
-    @AfterAll
-    static void afterAll() {
-        transactionDao = null;
     }
 
     @Test
