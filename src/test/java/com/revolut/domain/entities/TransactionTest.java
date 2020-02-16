@@ -18,27 +18,28 @@ public class TransactionTest {
     @Test
     public void testNewTransactionShouldRaiseErrorIfOriginAccountIsNull() {
         assertThrows(IllegalArgumentException.class,
-            () -> new Transaction(null, new Account(), ONE),
+            () -> new Transaction(null, new Account("John Doe"), ONE),
             "Origin account must be non-null");
     }
 
     @Test
     public void testNewTransactionShouldRaiseErrorIfDestinationAccountIsNull() {
         assertThrows(IllegalArgumentException.class,
-            () -> new Transaction(new Account(), null, ONE),
+            () -> new Transaction(new Account("John Doe"), null, ONE),
             "Destination account must be non-null");
     }
 
     @Test
     public void testNewTransactionShouldRaiseErrorIfAmountIsNull() {
         assertThrows(IllegalArgumentException.class,
-            () -> new Transaction(new Account(), new Account(), null),
+            () -> new Transaction(new Account("John Doe"), new Account("Joseph Doe"), null),
             "Transaction amount must be non-null");
     }
 
     @Test
     public void testNewTransactionShouldHaveAnIdentifierAndDate() {
-        final Transaction transaction = new Transaction(new Account(), new Account(), ONE);
+        final Transaction transaction = new Transaction(new Account("John Doe"), new Account("Joseph Doe"), ONE);
+
         assertNotNull(transaction.getId(), "Transaction must have an identifier");
         assertNotNull(transaction.getDate(), "Transaction must have a date");
     }
@@ -46,30 +47,30 @@ public class TransactionTest {
     @Test
     public void testTransferShouldRaiseErrorIfAmountIsNegative() {
         assertThrows(IllegalArgumentException.class,
-            () -> new Transaction(new Account(), new Account(), new BigDecimal(-10d)).transfer(),
+            () -> new Transaction(new Account("John Doe"), new Account("Joseph Doe"), new BigDecimal(-10d)).transfer(),
             "Transaction amount must be greater than zero");
     }
 
     @Test
     public void testTransferShouldRaiseErrorIfAmountIsZero() {
         assertThrows(IllegalArgumentException.class,
-            () -> new Transaction(new Account(), new Account(), ZERO).transfer(),
+            () -> new Transaction(new Account("John Doe"), new Account("Joseph Doe"), ZERO).transfer(),
             "Transaction amount must be greater than zero");
     }
 
     @Test
     public void testTransferShouldRaiseErrorIfOriginAccountHasInsufficientBalance() {
         assertThrows(IllegalArgumentException.class,
-            () -> new Transaction(new Account(), new Account(), ONE).transfer(),
+            () -> new Transaction(new Account("John Doe"), new Account("Joseph Doe"), ONE).transfer(),
             "Origin account must have sufficient balance");
     }
 
     @Test
     public void testTransferShouldWithdrawFromOriginAccountAndDepositOnDestination() {
-        final Account origin = new Account();
+        final Account origin = new Account("John Doe");
         origin.deposit(TEN);
 
-        final Account destination = new Account();
+        final Account destination = new Account("Joseph Doe");
 
         new Transaction(origin, destination, ONE).transfer();
 

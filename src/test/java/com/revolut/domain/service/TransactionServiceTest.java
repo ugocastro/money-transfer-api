@@ -77,7 +77,7 @@ public class TransactionServiceTest {
 
     @Test
     public void testTransferShouldRaiseErrorIfDestinationAccountIsNotFound() throws Exception {
-        final Account origin = new Account();
+        final Account origin = new Account("John Doe");
         final String destinationAccountNumber = randomUUID().toString();
 
         when(this.accountDao.findById(origin.getNumber())).thenReturn(origin);
@@ -90,9 +90,9 @@ public class TransactionServiceTest {
 
     @Test
     public void testTransferShouldRaiseErrorIfAmountIsNegative() throws Exception {
-        final Account origin = new Account();
+        final Account origin = new Account("John Doe");
         origin.deposit(TEN);
-        final Account destination = new Account();
+        final Account destination = new Account("Joseph Doe");
 
         when(this.accountDao.findById(origin.getNumber())).thenReturn(origin);
         when(this.accountDao.findById(destination.getNumber())).thenReturn(destination);
@@ -104,9 +104,9 @@ public class TransactionServiceTest {
 
     @Test
     public void testTransferShouldRaiseErrorIfAmountIsZero() throws Exception {
-        final Account origin = new Account();
+        final Account origin = new Account("John Doe");
         origin.deposit(TEN);
-        final Account destination = new Account();
+        final Account destination = new Account("Joseph Doe");
 
         when(this.accountDao.findById(origin.getNumber())).thenReturn(origin);
         when(this.accountDao.findById(destination.getNumber())).thenReturn(destination);
@@ -118,8 +118,8 @@ public class TransactionServiceTest {
 
     @Test
     public void testTransferShouldRaiseErrorIfOriginAccountHasInsufficientBalance() throws Exception {
-        final Account origin = new Account();
-        final Account destination = new Account();
+        final Account origin = new Account("John Doe");
+        final Account destination = new Account("Joseph Doe");
 
         when(this.accountDao.findById(origin.getNumber())).thenReturn(origin);
         when(this.accountDao.findById(destination.getNumber())).thenReturn(destination);
@@ -131,9 +131,9 @@ public class TransactionServiceTest {
 
     @Test
     public void testTransferShouldWithdrawFromOriginAccountAndDepositOnDestination() throws Exception {
-        final Account origin = new Account();
+        final Account origin = new Account("John Doe");
         origin.deposit(TEN);
-        final Account destination = new Account();
+        final Account destination = new Account("Joseph Doe");
         final Transaction transaction = new Transaction(origin, destination, ONE);
 
         when(this.accountDao.findById(origin.getNumber())).thenReturn(origin);

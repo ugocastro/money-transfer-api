@@ -29,7 +29,7 @@ public class AccountDaoTest {
 
     @Test
     public void testSaveAccountShouldCreateAccount() throws Exception {
-        final Account newAccount = new Account();
+        final Account newAccount = new Account("John Doe");
         this.accountDao.save(newAccount);
         final Account savedAccount = this.accountDao.findById(newAccount.getNumber());
 
@@ -45,8 +45,8 @@ public class AccountDaoTest {
 
     @Test
     public void testGetAccountByNumberShouldRetrieveAccount() throws Exception {
-        final Account newAccount1 = new Account();
-        final Account newAccount2 = new Account();
+        final Account newAccount1 = new Account("John Doe");
+        final Account newAccount2 = new Account("Joseph Doe");
         this.accountDao.save(newAccount1);
         this.accountDao.save(newAccount2);
         final Account retrievedAccount = this.accountDao.findById(newAccount1.getNumber());

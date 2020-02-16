@@ -33,24 +33,25 @@ public class TransactionDaoTest {
     @Test
     public void testSaveTransactionShouldRaiseErrorIfOriginAccountDoesNotExist() {
         assertThrows(Exception.class,
-            () -> this.transactionDao.save(new Transaction(new Account(), new Account(), ONE)),
+            () -> this.transactionDao.save(new Transaction(new Account("John Doe"), new Account("Joseph Doe"), ONE)),
             "Origin account must exist");
     }
 
     @Test
     public void testSaveTransactionShouldRaiseErrorIfDestinationAccountDoesNotExist() throws Exception {
         final AccountDao accountDao = new AccountDao();
-        final Account savedAccount = accountDao.save(new Account());
+        final Account savedAccount = accountDao.save(new Account("John Doe"));
+
         assertThrows(Exception.class,
-            () -> this.transactionDao.save(new Transaction(savedAccount, new Account(), ONE)),
+            () -> this.transactionDao.save(new Transaction(savedAccount, new Account("Joseph Doe"), ONE)),
             "Destination account must exist");
     }
 
     @Test
     public void testSaveTransactionShouldCreateEntryOnDatabase() throws Exception {
         final AccountDao accountDao = new AccountDao();
-        final Account originAccount = accountDao.save(new Account());
-        final Account destinationAccount = accountDao.save(new Account());
+        final Account originAccount = accountDao.save(new Account("John Doe"));
+        final Account destinationAccount = accountDao.save(new Account("Joseph Doe"));
         final Transaction newTransaction = new Transaction(originAccount, destinationAccount, ONE);
         this.transactionDao.save(newTransaction);
         final Transaction savedTransaction = this.transactionDao.findById(newTransaction.getId());
@@ -68,8 +69,9 @@ public class TransactionDaoTest {
     @Test
     public void testGetTransactionByIdentifierShouldRetrieveData() throws Exception {
         final AccountDao accountDao = new AccountDao();
-        final Account originAccount = accountDao.save(new Account());
-        final Account destinationAccount = accountDao.save(new Account());
+        final Account originAccount = accountDao.save(new Account("John Doe"));
+        final Account destinationAccount = accountDao.save(new Account("Joseph Doe"));
+
         final Transaction newTransaction1 = new Transaction(originAccount, destinationAccount, ONE);
         final Transaction newTransaction2 = new Transaction(originAccount, destinationAccount, TEN);
         this.transactionDao.save(newTransaction1);

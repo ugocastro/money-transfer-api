@@ -26,10 +26,15 @@ public class Account implements Serializable {
     @Id
     private String number;
 
+    private String owner;
+
     private BigDecimal balance;
 
-    public Account() {
+    public Account() { }
+
+    public Account(@NonNull final String owner) {
         this.number = randomUUID().toString();
+        setOwner(owner);
         setBalance(ZERO);
     }
 
@@ -53,6 +58,14 @@ public class Account implements Serializable {
 
         final BigDecimal newBalance = this.balance.subtract(amount);
         setBalance(newBalance);
+    }
+
+    private void setOwner(@NonNull final String owner) throws IllegalArgumentException {
+        if (owner.trim().isEmpty()) {
+            throw new IllegalArgumentException("Account owner should not be empty");
+        }
+
+        this.owner = owner;
     }
 
     private void setBalance(@NonNull final BigDecimal balance) {
