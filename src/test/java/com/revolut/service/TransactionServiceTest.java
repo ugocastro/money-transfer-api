@@ -1,11 +1,9 @@
-package com.revolut.domain.service;
+package com.revolut.service;
 
 import com.revolut.domain.entities.Account;
 import com.revolut.domain.entities.Transaction;
 import com.revolut.domain.repository.AccountDao;
 import com.revolut.domain.repository.TransactionDao;
-import com.revolut.service.TransactionService;
-import com.revolut.service.TransactionServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
