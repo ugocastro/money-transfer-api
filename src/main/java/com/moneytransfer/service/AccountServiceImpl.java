@@ -1,16 +1,16 @@
 package com.moneytransfer.service;
 
 import com.moneytransfer.domain.entities.Account;
-import com.moneytransfer.domain.repository.AccountDao;
+import com.moneytransfer.domain.repository.BaseDao;
 import lombok.NonNull;
 
 import java.math.BigDecimal;
 
 public class AccountServiceImpl implements AccountService {
 
-    private AccountDao accountDao;
+    private BaseDao<Account> accountDao;
 
-    public AccountServiceImpl(@NonNull final AccountDao accountDao) {
+    public AccountServiceImpl(@NonNull final BaseDao<Account> accountDao) {
         this.accountDao = accountDao;
     }
 

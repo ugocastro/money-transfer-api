@@ -2,19 +2,18 @@ package com.moneytransfer.service;
 
 import com.moneytransfer.domain.entities.Account;
 import com.moneytransfer.domain.entities.Transaction;
-import com.moneytransfer.domain.repository.AccountDao;
-import com.moneytransfer.domain.repository.TransactionDao;
+import com.moneytransfer.domain.repository.BaseDao;
 import lombok.NonNull;
 
 import java.math.BigDecimal;
 
 public class TransactionServiceImpl implements TransactionService {
 
-    private AccountDao accountDao;
-    private TransactionDao transactionDao;
+    private BaseDao<Account> accountDao;
+    private BaseDao<Transaction> transactionDao;
 
-    public TransactionServiceImpl(@NonNull final AccountDao accountDao,
-                                  @NonNull final TransactionDao transactionDao) {
+    public TransactionServiceImpl(@NonNull final BaseDao<Account> accountDao,
+                                  @NonNull final BaseDao<Transaction> transactionDao) {
         this.accountDao = accountDao;
         this.transactionDao = transactionDao;
     }
