@@ -2,6 +2,8 @@ package com.revolut.domain.entities;
 
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
 import static com.revolut.utils.Constants.DECIMAL_PLACES;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
@@ -39,6 +41,13 @@ public class TransactionTest {
         final Transaction transaction = new Transaction(new Account(), new Account(), ONE);
         assertNotNull(transaction.getId(), "Transaction must have an identifier");
         assertNotNull(transaction.getDate(), "Transaction must have a date");
+    }
+
+    @Test
+    public void testTransferShouldRaiseErrorIfAmountIsNegative() {
+        assertThrows(IllegalArgumentException.class,
+            () -> new Transaction(new Account(), new Account(), new BigDecimal(-10d)).transfer(),
+            "Transaction amount must be greater than zero");
     }
 
     @Test
