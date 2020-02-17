@@ -1,4 +1,4 @@
-package com.moneytransfer.response;
+package com.moneytransfer.domain.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

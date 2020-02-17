@@ -6,6 +6,8 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import static org.hibernate.boot.registry.StandardServiceRegistryBuilder.destroy;
+
 @Slf4j
 public class HibernateSessionFactory implements SessionFactory<org.hibernate.SessionFactory> {
 
@@ -31,7 +33,7 @@ public class HibernateSessionFactory implements SessionFactory<org.hibernate.Ses
 
     private void shutdown() {
         if (this.registry != null) {
-            StandardServiceRegistryBuilder.destroy(this.registry);
+            destroy(this.registry);
         }
     }
 }

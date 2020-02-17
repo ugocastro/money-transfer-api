@@ -26,7 +26,7 @@ public class TransactionServiceImpl implements TransactionService {
         final Account origin = this.accountDao.findById(originAccountNumber);
         final Account destination = this.accountDao.findById(destinationAccountNumber);
 
-        Transaction transaction = new Transaction(origin, destination, amount);
+        final Transaction transaction = new Transaction(origin, destination, amount);
         transaction.transfer();
 
         this.accountDao.save(origin);

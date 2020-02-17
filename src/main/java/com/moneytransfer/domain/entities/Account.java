@@ -38,7 +38,7 @@ public class Account implements Serializable {
         setBalance(ZERO);
     }
 
-    public void deposit(@NonNull final BigDecimal amount) throws IllegalArgumentException {
+    public void deposit(@NonNull final BigDecimal amount) {
         if (amount.compareTo(ZERO) <= 0) {
             throw new IllegalArgumentException("Amount for deposit should be greater than zero");
         }
@@ -47,7 +47,7 @@ public class Account implements Serializable {
         setBalance(newBalance);
     }
 
-    public void withdraw(@NonNull final BigDecimal amount) throws IllegalArgumentException {
+    public void withdraw(@NonNull final BigDecimal amount) {
         if (amount.compareTo(ZERO) <= 0) {
             throw new IllegalArgumentException("Amount for withdraw should be greater than zero");
         }
@@ -60,7 +60,7 @@ public class Account implements Serializable {
         setBalance(newBalance);
     }
 
-    private void setOwner(@NonNull final String owner) throws IllegalArgumentException {
+    private void setOwner(@NonNull final String owner) {
         if (owner.trim().isEmpty()) {
             throw new IllegalArgumentException("Account owner should not be empty");
         }

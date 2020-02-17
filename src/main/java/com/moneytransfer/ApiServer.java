@@ -6,7 +6,7 @@ import com.moneytransfer.domain.repository.TransactionDao;
 import com.moneytransfer.domain.request.AccountRequest;
 import com.moneytransfer.domain.request.TransferRequest;
 import com.moneytransfer.domain.request.UpdateBalanceRequest;
-import com.moneytransfer.response.ErrorResponse;
+import com.moneytransfer.domain.response.ErrorResponse;
 import com.moneytransfer.service.AccountServiceImpl;
 import com.moneytransfer.service.TransactionServiceImpl;
 import com.moneytransfer.utils.JsonTransformer;
