@@ -3,6 +3,7 @@ package com.moneytransfer.domain.repository;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 
+import javax.persistence.PersistenceException;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.NoSuchElementException;
@@ -31,6 +32,11 @@ public abstract class HibernateDao<T extends Serializable> implements BaseDao<T>
                     session.getTransaction().rollback();
                 }
                 session.close();
+            }
+
+            if (e instanceof PersistenceException &&
+                e.getMessage().contains("ConstraintViolationException")) {
+                throw new NoSuchElementException("Object with given identifier does not exist");
             }
 
             throw new Exception("Error saving " + clazz.getClass().getName());

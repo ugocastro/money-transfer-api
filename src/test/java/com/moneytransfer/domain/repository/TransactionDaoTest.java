@@ -26,7 +26,7 @@ public class TransactionDaoTest {
 
     @Test
     public void testSaveTransactionShouldRaiseErrorIfOriginAccountDoesNotExist() {
-        assertThrows(Exception.class,
+        assertThrows(NoSuchElementException.class,
             () -> this.transactionDao.save(new Transaction(new Account("John Doe"), new Account("Joseph Doe"), ONE)),
             "Origin account must exist");
     }
@@ -36,7 +36,7 @@ public class TransactionDaoTest {
         final AccountDao accountDao = new AccountDao();
         final Account savedAccount = accountDao.save(new Account("John Doe"));
 
-        assertThrows(Exception.class,
+        assertThrows(NoSuchElementException.class,
             () -> this.transactionDao.save(new Transaction(savedAccount, new Account("Joseph Doe"), ONE)),
             "Destination account must exist");
     }
