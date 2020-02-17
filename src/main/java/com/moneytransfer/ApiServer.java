@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static org.eclipse.jetty.http.HttpStatus.BAD_REQUEST_400;
+import static org.eclipse.jetty.http.HttpStatus.NOT_FOUND_404;
 import static spark.Spark.exception;
 import static spark.Spark.initExceptionHandler;
 import static spark.Spark.internalServerError;
@@ -27,7 +29,10 @@ import static spark.Spark.put;
 public class ApiServer {
 
     public static void main(String[] args) {
+        initialize();
+    }
 
+    public static void initialize() {
         initExceptionHandler((e) -> log.error("Error starting server", e.getMessage()));
 
         path("/api", () -> {
@@ -70,13 +75,13 @@ public class ApiServer {
 
         exception(NoSuchElementException.class, (exc, req, res) -> {
             res.type("application/json");
-            res.status(404);
+            res.status(NOT_FOUND_404);
             res.body(new Gson().toJson(new ErrorResponse(exc.getMessage())));
         });
 
         exception(IllegalArgumentException.class, (exc, req, res) -> {
             res.type("application/json");
-            res.status(400);
+            res.status(BAD_REQUEST_400);
             res.body(new Gson().toJson(new ErrorResponse(exc.getMessage())));
         });
 

@@ -4,7 +4,6 @@ import com.moneytransfer.domain.entities.Account;
 import com.moneytransfer.domain.entities.Transaction;
 import com.moneytransfer.domain.repository.AccountDao;
 import com.moneytransfer.domain.repository.TransactionDao;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,13 +32,6 @@ public class TransactionServiceTest {
         this.accountDao = mock(AccountDao.class);
         this.transactionDao = mock(TransactionDao.class);
         this.transactionService = new TransactionServiceImpl(this.accountDao, this.transactionDao);
-    }
-
-    @AfterEach
-    void afterEach() {
-        this.accountDao = null;
-        this.transactionDao = null;
-        this.transactionService = null;
     }
 
     @Test
@@ -84,6 +76,17 @@ public class TransactionServiceTest {
         assertThrows(NoSuchElementException.class,
             () -> transactionService.transfer(randomUUID().toString(), destinationAccountNumber, ONE),
             "Destination account must exist");
+    }
+
+    @Test
+    public void testTransferShouldRaiseErrorIfOriginAndDestinationAccountsAreSame() throws Exception {
+        final Account origin = new Account("John Doe");
+
+        when(this.accountDao.findById(origin.getNumber())).thenReturn(origin);
+
+        assertThrows(IllegalArgumentException.class,
+            () -> transactionService.transfer(origin.getNumber(), origin.getNumber(), ONE),
+            "Accounts must be different");
     }
 
     @Test

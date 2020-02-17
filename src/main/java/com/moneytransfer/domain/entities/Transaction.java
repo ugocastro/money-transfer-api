@@ -42,9 +42,14 @@ public class Transaction implements Serializable {
     public Transaction(@NonNull final Account origin,
                        @NonNull final Account destination,
                        @NonNull final BigDecimal amount) {
-        this.id = randomUUID().toString();
         this.origin = origin;
         this.destination = destination;
+
+        if (this.origin.equals(this.destination)) {
+            throw new IllegalArgumentException("Accounts for transfer should be different");
+        }
+
+        this.id = randomUUID().toString();
         this.amount = amount.setScale(DECIMAL_PLACES, HALF_UP);
         this.date = LocalDateTime.now();
     }

@@ -21,6 +21,7 @@
 
         <junit.version>5.6.0</junit.version>
         <mockito.version>3.2.4</mockito.version>
+        <sparkTest.version>1.1.8</sparkTest.version>
 
         <mavenCompiler.version>3.8.1</mavenCompiler.version>
         <mavenSurefire.version>3.0.0-M4</mavenSurefire.version>
@@ -75,6 +76,13 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.despegar</groupId>
+            <artifactId>spark-test</artifactId>
+            <version>${sparkTest.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

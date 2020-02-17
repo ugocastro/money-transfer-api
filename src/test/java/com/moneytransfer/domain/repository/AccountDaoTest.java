@@ -17,7 +17,7 @@ public class AccountDaoTest {
     private static AccountDao accountDao;
 
     @BeforeAll
-    static void beforeAll() {
+    static void setUp() {
         accountDao = new AccountDao();
     }
 

@@ -20,7 +20,7 @@ public class TransactionDaoTest {
     private static TransactionDao transactionDao;
 
     @BeforeAll
-    static void beforeAll() {
+    static void setUp() {
         transactionDao = new TransactionDao();
     }
 
@@ -39,6 +39,16 @@ public class TransactionDaoTest {
         assertThrows(Exception.class,
             () -> this.transactionDao.save(new Transaction(savedAccount, new Account("Joseph Doe"), ONE)),
             "Destination account must exist");
+    }
+
+    @Test
+    public void testSaveTransactionShouldRaiseErrorIfOriginAndDestinationAccountsAreSame() throws Exception {
+        final AccountDao accountDao = new AccountDao();
+        final Account savedAccount = accountDao.save(new Account("John Doe"));
+
+        assertThrows(IllegalArgumentException.class,
+            () -> this.transactionDao.save(new Transaction(savedAccount, savedAccount, ONE)),
+            "Accounts must be different");
     }
 
     @Test

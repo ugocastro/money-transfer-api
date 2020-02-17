@@ -66,6 +66,14 @@ public class TransactionTest {
     }
 
     @Test
+    public void testTransferShouldRaiseErrorIfOriginAndDestinationAccountsAreSame() {
+        final Account account = new Account("John Doe");
+        assertThrows(IllegalArgumentException.class,
+            () -> new Transaction(account, account, ONE).transfer(),
+            "Accounts must be different");
+    }
+
+    @Test
     public void testTransferShouldWithdrawFromOriginAccountAndDepositOnDestination() {
         final Account origin = new Account("John Doe");
         origin.deposit(TEN);
