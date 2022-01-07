@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <lombok.version>1.18.12</lombok.version>
-        <h2.version>1.4.200</h2.version>
+        <h2.version>2.0.206</h2.version>
         <hibernate.version>5.4.12.Final</hibernate.version>
         <slf4j.version>1.7.30</slf4j.version>
         <spark.version>2.9.1</spark.version>
